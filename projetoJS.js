@@ -46,6 +46,9 @@ let currentPlayerImage;
 let obstacleImages = [];
 let backgroundImg;
 
+//--Fonte
+let font;
+
 //--Preload dos Sons e Imagens
 function preload() {
 
@@ -54,6 +57,9 @@ function preload() {
   backgroundSound = loadSound('media/sounds/background.mp3');
   winSound = loadSound('media/sounds/win.mp3');
   loseSound = loadSound('media/sounds/lose.mp3');
+
+  //--Carregar fonte
+  font = loadFont('media/font/upheavtt.ttf');
 
   //--Carregar Imagens
   backgroundImg = loadImage('media/other/background.png');
@@ -84,6 +90,9 @@ function setup() {
   mic = new p5.AudioIn();
   mic.start();
   backgroundSound.loop();
+
+  //--Setup da Fonte Global
+  textFont(font);
 }
 
 //--Função Principal de todos os ecrâs
@@ -375,7 +384,16 @@ function playGame() {
 
   text("Pontuação: " + score, 35, 30);
   textAlign(RIGHT);
-  text("Tempo: " + floor((gameTimer - gameTime) / 1000) + "s", width - 30, 30);
+
+  let remainingTime = gameTimer - gameTime;
+  let seconds = floor((remainingTime / 1000) % 60);
+  let minutes = floor((remainingTime / 1000) / 60);
+
+  if (minutes > 0) {
+    text("Tempo: " + minutes + "m" + seconds + "s", width - 30, 30);
+  } else {
+    text("Tempo: " + seconds + "s", width - 30, 30);
+  }
   
   //--Estilo para o autor
   textAlign(RIGHT);
